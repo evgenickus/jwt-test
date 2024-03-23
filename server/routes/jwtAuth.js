@@ -16,7 +16,7 @@ router.post("/register", validInfo, async (req, res) => {
     //2. check if user exist(if user exist then throw error)
     const user = await pool.query("SELECT * FROM users WHERE user_email = $1", [email]);
     if (user.rowCount !== 0) {
-      return res.status(404).send("User already exist");
+      return res.status(404).json("User already exist");
     }
 
     //3. Bcrypt the user password
@@ -32,7 +32,7 @@ router.post("/register", validInfo, async (req, res) => {
     res.json({ token });
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server Error")
+    res.status(500).json("Server Error")
   }
 });
 
@@ -59,7 +59,7 @@ router.post("/login", validInfo, async (req, res) => {
 
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server Error");
+    res.status(500).json("Server Error");
   }
 });
 
@@ -68,7 +68,7 @@ router.get("/is-verify", authorization, async (req, res) => {
     res.json(true);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server Error");
+    res.status(500).json("Server Error");
   }
 });
 
